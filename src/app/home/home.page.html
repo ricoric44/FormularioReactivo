@@ -42,6 +42,18 @@
           [errorText]="'Mínimo 8 caracteres, letras y números.'">
         </ion-input>
       </ion-item>
+
+      <!-- Campo nuevo: Fecha de nacimiento (selector de fecha nativo) -->
+      <ion-item>
+        <ion-input
+          label="Fecha de nacimiento"
+          labelPlacement="stacked"
+          type="date"
+          [max]="hoy"
+          formControlName="fechaNacimiento"
+          [errorText]="errorFecha">
+        </ion-input>
+      </ion-item>
     </ion-list>
 
     <div class="ion-padding-top">
