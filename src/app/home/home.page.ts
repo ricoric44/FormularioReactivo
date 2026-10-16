@@ -1,5 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { AlertController } from '@ionic/angular/lazy';
+import { ThemeService } from '../services/theme.service';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 
 // Convierte el valor AAAA-MM-DD del input en una fecha en hora local (sin la hora se leería en UTC)
@@ -57,7 +58,7 @@ export class HomePage {
   // Fecha máxima del selector (hoy), en formato AAAA-MM-DD
   public hoy = new Date().toLocaleDateString('sv-SE');
 
-  constructor(private fb: FormBuilder, private alertCtrl: AlertController) {
+  constructor(private fb: FormBuilder, private alertCtrl: AlertController, public theme: ThemeService) {
     this.registroForm = this.fb.group({
       nombre: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],

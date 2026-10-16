@@ -33,5 +33,7 @@
  */
 
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
-/* @import "@ionic/angular/css/palettes/dark.class.css"; */
-@import "@ionic/angular/css/palettes/dark.system.css";
+/* @import "@ionic/angular/css/palettes/dark.system.css"; */
+/* Modo oscuro con botón: la paleta oscura se activa con la clase
+   .ion-palette-dark en <html> (ver ThemeService). */
+@import "@ionic/angular/css/palettes/dark.class.css";
