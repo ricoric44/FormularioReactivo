@@ -8,11 +8,18 @@
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
+  <!-- Punto 12: selector para comparar los dos modelos de formulario -->
+  <app-nav-formularios actual="reactivo"></app-nav-formularios>
 </ion-header>
 
 <ion-content class="ion-padding">
   <!-- Punto 11 (RWD): en móvil ocupa todo el ancho; en tablet y escritorio se centra con un ancho máximo -->
   <div class="contenedor-form">
+    <p class="explicacion">
+      Formulario <strong>reactivo</strong>: la estructura y las validaciones se definen en TypeScript con
+      <code>FormBuilder</code> y la plantilla solo se enlaza con <code>formControlName</code>.
+    </p>
+
     <!-- Enlace del FormGroup definido en TypeScript -->
     <form [formGroup]="registroForm" (ngSubmit)="onSubmit()">
 

@@ -5,6 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RegistroPage } from './registro.page';
 
 import { RegistroPageRoutingModule } from './registro-routing.module';
+import { NavFormulariosComponent } from '../components/nav-formularios.component';
 
 
 @NgModule({
@@ -13,7 +14,8 @@ import { RegistroPageRoutingModule } from './registro-routing.module';
     FormsModule,
     ReactiveFormsModule,
     IonicModule,
-    RegistroPageRoutingModule
+    RegistroPageRoutingModule,
+    NavFormulariosComponent
   ],
   declarations: [RegistroPage]
 })

@@ -4,6 +4,13 @@
   margin: 0 auto;
 }
 
+.explicacion {
+  margin: 0 0 12px;
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--ion-color-medium);
+}
+
 // A partir de tablet, la lista se ve como una tarjeta con bordes redondeados
 @media (min-width: 768px) {
   .contenedor-form {

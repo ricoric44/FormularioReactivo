@@ -1,0 +1,122 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <!-- Mismo título que la página reactiva: el modelo se indica en el selector de abajo -->
+    <ion-title>Registro de Usuario</ion-title>
+    <!-- Botón de modo oscuro: cambia el signal del ThemeService -->
+    <ion-buttons slot="end">
+      <ion-button (click)="theme.toggle()" [attr.aria-label]="theme.dark() ? 'Activar modo claro' : 'Activar modo oscuro'">
+        <ion-icon slot="icon-only" [name]="theme.dark() ? 'sunny-outline' : 'moon-outline'"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <!-- Punto 12: selector para comparar los dos modelos de formulario -->
+  <app-nav-formularios actual="driven"></app-nav-formularios>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="contenedor-form">
+    <p class="explicacion">
+      Mismo formulario con el modelo <strong>template-driven</strong>: cada campo se enlaza con
+      <code>[(ngModel)]</code> y las validaciones son atributos del HTML.
+    </p>
+
+    <!-- #registroForm="ngForm": Angular crea el formulario a partir de la plantilla -->
+    <form #registroForm="ngForm" (ngSubmit)="onSubmit(registroForm)" novalidate>
+
+      <ion-list lines="full">
+        <!-- Campo Nombre: required y minlength como atributos -->
+        <ion-item>
+          <ion-input
+            label="Nombre completo"
+            labelPlacement="floating"
+            type="text"
+            name="nombre"
+            [(ngModel)]="modelo.nombre"
+            required
+            minlength="3"
+            [errorText]="'El nombre es obligatorio (mín. 3 caracteres).'">
+          </ion-input>
+        </ion-item>
+
+        <!-- Campo Email: el atributo email activa el validador de Angular -->
+        <ion-item>
+          <ion-input
+            label="Correo Electrónico"
+            labelPlacement="floating"
+            type="email"
+            inputmode="email"
+            name="email"
+            [(ngModel)]="modelo.email"
+            required
+            email
+            [errorText]="'Introduzca un email válido.'">
+          </ion-input>
+        </ion-item>
+
+        <!-- Campo Contraseña: pattern con el mismo patrón que el formulario reactivo -->
+        <ion-item>
+          <ion-input
+            label="Contraseña"
+            labelPlacement="floating"
+            type="password"
+            name="password"
+            [(ngModel)]="modelo.password"
+            required
+            [pattern]="patronPassword"
+            [errorText]="'Mínimo 8 caracteres, letras y números.'">
+          </ion-input>
+        </ion-item>
+
+        <!-- Campo Teléfono con teclado telefónico -->
+        <ion-item>
+          <ion-input
+            label="Teléfono"
+            labelPlacement="floating"
+            type="tel"
+            inputmode="tel"
+            maxlength="9"
+            name="telefono"
+            [(ngModel)]="modelo.telefono"
+            required
+            [pattern]="patronTelefono"
+            [errorText]="'Introduzca un teléfono de 9 dígitos (empieza por 6, 7, 8 o 9).'">
+          </ion-input>
+        </ion-item>
+
+        <!-- Campo Fecha de nacimiento: validadores personalizados como directivas -->
+        <ion-item>
+          <ion-input
+            label="Fecha de nacimiento"
+            labelPlacement="stacked"
+            type="date"
+            [max]="hoy"
+            name="fechaNacimiento"
+            [(ngModel)]="modelo.fechaNacimiento"
+            #fecha="ngModel"
+            required
+            appFechaNoFutura
+            [appEdadMinima]="18"
+            [errorText]="errorFecha(fecha)">
+          </ion-input>
+        </ion-item>
+      </ion-list>
+
+      <div class="ion-padding-top">
+        <!-- Botón dinámico que responde al estado del ngForm y al Signal -->
+        <ion-button expand="block" type="submit" [disabled]="registroForm.invalid || isSubmitting()">
+          <span *ngIf="!isSubmitting()">Registrarse</span>
+          <ion-spinner name="crescent" *ngIf="isSubmitting()"></ion-spinner>
+        </ion-button>
+      </div>
+
+    </form>
+
+    <!-- Punto 8: descarga en PDF de los datos que se acaban de enviar -->
+    <div class="ion-padding-top" *ngIf="ultimoEnvio()">
+      <ion-button expand="block" fill="outline" (click)="descargarPdf()">
+        <ion-icon slot="start" name="download-outline"></ion-icon>
+        Descargar datos en PDF
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

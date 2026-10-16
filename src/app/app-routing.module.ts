@@ -7,12 +7,18 @@ const routes: Routes = [
     loadChildren: () => import('./registro/registro.module').then( m => m.RegistroPageModule)
   },
   {
+    // Punto 12: el mismo formulario hecho con el modelo template-driven
+    path: 'driven',
+    loadChildren: () => import('./driven/driven.module').then( m => m.DrivenPageModule)
+  },
+  {
     path: '',
     redirectTo: 'registro',
     pathMatch: 'full'
   },
   {
-    // Cualquier ruta desconocida (por ejemplo la antigua /home) vuelve al registro
+    // Cualquier ruta desconocida (por ejemplo la antigua /home) vuelve al registro.
+    // Tiene que ir la última: el router prueba las rutas en orden.
     path: '**',
     redirectTo: 'registro'
   },
