@@ -43,6 +43,19 @@
         </ion-input>
       </ion-item>
 
+      <!-- Campo nuevo: Teléfono con teclado telefónico -->
+      <ion-item>
+        <ion-input
+          label="Teléfono"
+          labelPlacement="floating"
+          type="tel"
+          inputmode="tel"
+          maxlength="9"
+          formControlName="telefono"
+          [errorText]="'Introduzca un teléfono de 9 dígitos (empieza por 6, 7, 8 o 9).'">
+        </ion-input>
+      </ion-item>
+
       <!-- Campo nuevo: Fecha de nacimiento (selector de fecha nativo) -->
       <ion-item>
         <ion-input

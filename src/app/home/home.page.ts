@@ -47,6 +47,8 @@ export class HomePage {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.pattern(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/)]],
       // Patrón: mínimo 8 caracteres, al menos una letra y un número.
+      // Teléfono español: 9 dígitos que empiezan por 6, 7, 8 o 9
+      telefono: ['', [Validators.required, Validators.pattern(/^[6789]\d{8}$/)]],
       fechaNacimiento: ['', [Validators.required, edadMinima(18)]],
     });
   }
