@@ -84,4 +84,12 @@
     </div>
 
   </form>
+
+  <!-- Punto 8: descarga en PDF de los datos que se acaban de enviar -->
+  <div class="ion-padding-top" *ngIf="ultimoEnvio()">
+    <ion-button expand="block" fill="outline" (click)="descargarPdf()">
+      <ion-icon slot="start" name="download-outline"></ion-icon>
+      Descargar datos en PDF
+    </ion-button>
+  </div>
 </ion-content>

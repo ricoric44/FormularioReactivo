@@ -42,6 +42,14 @@ export function edadMinima(anios: number): ValidatorFn {
   };
 }
 
+// Datos que se guardan del último envío para poder descargarlos en PDF
+export interface DatosRegistro {
+  nombre: string;
+  email: string;
+  telefono: string;
+  fechaNacimiento: string;
+}
+
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -54,6 +62,9 @@ export class HomePage {
 
   // Signal para gestionar el estado de envío
   public isSubmitting = signal<boolean>(false);
+
+  // Último registro enviado (null hasta el primer envío): activa el botón de descarga
+  public ultimoEnvio = signal<DatosRegistro | null>(null);
 
   // Fecha máxima del selector (hoy), en formato AAAA-MM-DD
   public hoy = new Date().toLocaleDateString('sv-SE');
@@ -99,6 +110,10 @@ export class HomePage {
 
       // Aquí se implementaría: this.httpClient.post('url', formData).subscribe(...)
 
+      // Se guardan los datos enviados (sin la contraseña) antes de vaciar el formulario
+      const { nombre, email, telefono, fechaNacimiento } = formData;
+      this.ultimoEnvio.set({ nombre, email, telefono, fechaNacimiento });
+
       this.registroForm.reset();
 
       // Aviso al usuario de que el envío ha ido bien
@@ -113,5 +128,40 @@ export class HomePage {
     } finally {
       this.isSubmitting.set(false);
     }
+  }
+
+  // Genera un PDF con los datos del último envío y lo descarga (punto 8)
+  public async descargarPdf(): Promise<void> {
+    const datos = this.ultimoEnvio();
+    if (!datos) {
+      return;
+    }
+    // jsPDF se carga solo al pulsar el botón, para no hacer más pesada la página
+    const { jsPDF } = await import('jspdf');
+    const pdf = new jsPDF();
+    const [anio, mes, dia] = datos.fechaNacimiento.split('-');
+
+    pdf.setFontSize(18);
+    pdf.text('Registro de Usuario', 20, 25);
+    pdf.setFontSize(10);
+    pdf.text(`Enviado el ${new Date().toLocaleString('es-ES')}`, 20, 33);
+
+    const filas: [string, string][] = [
+      ['Nombre completo', datos.nombre],
+      ['Correo electrónico', datos.email],
+      ['Teléfono', datos.telefono],
+      ['Fecha de nacimiento', `${dia}/${mes}/${anio}`],
+      ['Contraseña', '******** (no se incluye por seguridad)'],
+    ];
+    pdf.setFontSize(12);
+    filas.forEach(([campo, valor], i) => {
+      const y = 50 + i * 12;
+      pdf.setFont('helvetica', 'bold');
+      pdf.text(`${campo}:`, 20, y);
+      pdf.setFont('helvetica', 'normal');
+      pdf.text(valor, 70, y);
+    });
+
+    pdf.save(`registro-${datos.nombre.replace(/\s+/g, '-').toLowerCase()}.pdf`);
   }
 }
