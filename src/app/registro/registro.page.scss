@@ -1,0 +1,16 @@
+// Punto 11 (RWD): el formulario se adapta al ancho de la pantalla
+.contenedor-form {
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+// A partir de tablet, la lista se ve como una tarjeta con bordes redondeados
+@media (min-width: 768px) {
+  .contenedor-form {
+    padding-top: 24px;
+  }
+
+  ion-list {
+    border-radius: 12px;
+  }
+}

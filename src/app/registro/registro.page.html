@@ -11,85 +11,88 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <!-- Enlace del FormGroup definido en TypeScript -->
-  <form [formGroup]="registroForm" (ngSubmit)="onSubmit()">
+  <!-- Punto 11 (RWD): en móvil ocupa todo el ancho; en tablet y escritorio se centra con un ancho máximo -->
+  <div class="contenedor-form">
+    <!-- Enlace del FormGroup definido en TypeScript -->
+    <form [formGroup]="registroForm" (ngSubmit)="onSubmit()">
 
-    <ion-list lines="full">
-      <!-- Campo Nombre -->
-      <ion-item>
-        <ion-input
-          label="Nombre completo"
-          labelPlacement="floating"
-          type="text"
-          formControlName="nombre"
-          [errorText]="'El nombre es obligatorio (mín. 3 caracteres).'">
-        </ion-input>
-      </ion-item>
+      <ion-list lines="full">
+        <!-- Campo Nombre -->
+        <ion-item>
+          <ion-input
+            label="Nombre completo"
+            labelPlacement="floating"
+            type="text"
+            formControlName="nombre"
+            [errorText]="'El nombre es obligatorio (mín. 3 caracteres).'">
+          </ion-input>
+        </ion-item>
 
-      <!-- Campo Email con teclado específico para móviles -->
-      <ion-item>
-        <ion-input
-          label="Correo Electrónico"
-          labelPlacement="floating"
-          type="email"
-          inputmode="email"
-          formControlName="email"
-          [errorText]="'Introduzca un email válido.'">
-        </ion-input>
-      </ion-item>
+        <!-- Campo Email con teclado específico para móviles -->
+        <ion-item>
+          <ion-input
+            label="Correo Electrónico"
+            labelPlacement="floating"
+            type="email"
+            inputmode="email"
+            formControlName="email"
+            [errorText]="'Introduzca un email válido.'">
+          </ion-input>
+        </ion-item>
 
-      <!-- Campo Contraseña -->
-      <ion-item>
-        <ion-input
-          label="Contraseña"
-          labelPlacement="floating"
-          type="password"
-          formControlName="password"
-          [errorText]="'Mínimo 8 caracteres, letras y números.'">
-        </ion-input>
-      </ion-item>
+        <!-- Campo Contraseña -->
+        <ion-item>
+          <ion-input
+            label="Contraseña"
+            labelPlacement="floating"
+            type="password"
+            formControlName="password"
+            [errorText]="'Mínimo 8 caracteres, letras y números.'">
+          </ion-input>
+        </ion-item>
 
-      <!-- Campo nuevo: Teléfono con teclado telefónico -->
-      <ion-item>
-        <ion-input
-          label="Teléfono"
-          labelPlacement="floating"
-          type="tel"
-          inputmode="tel"
-          maxlength="9"
-          formControlName="telefono"
-          [errorText]="'Introduzca un teléfono de 9 dígitos (empieza por 6, 7, 8 o 9).'">
-        </ion-input>
-      </ion-item>
+        <!-- Campo nuevo: Teléfono con teclado telefónico -->
+        <ion-item>
+          <ion-input
+            label="Teléfono"
+            labelPlacement="floating"
+            type="tel"
+            inputmode="tel"
+            maxlength="9"
+            formControlName="telefono"
+            [errorText]="'Introduzca un teléfono de 9 dígitos (empieza por 6, 7, 8 o 9).'">
+          </ion-input>
+        </ion-item>
 
-      <!-- Campo nuevo: Fecha de nacimiento (selector de fecha nativo) -->
-      <ion-item>
-        <ion-input
-          label="Fecha de nacimiento"
-          labelPlacement="stacked"
-          type="date"
-          [max]="hoy"
-          formControlName="fechaNacimiento"
-          [errorText]="errorFecha">
-        </ion-input>
-      </ion-item>
-    </ion-list>
+        <!-- Campo nuevo: Fecha de nacimiento (selector de fecha nativo) -->
+        <ion-item>
+          <ion-input
+            label="Fecha de nacimiento"
+            labelPlacement="stacked"
+            type="date"
+            [max]="hoy"
+            formControlName="fechaNacimiento"
+            [errorText]="errorFecha">
+          </ion-input>
+        </ion-item>
+      </ion-list>
 
-    <div class="ion-padding-top">
-      <!-- Botón dinámico que responde al Signal -->
-      <ion-button expand="block" type="submit" [disabled]="registroForm.invalid || isSubmitting()">
-        <span *ngIf="!isSubmitting()">Registrarse</span>
-        <ion-spinner name="crescent" *ngIf="isSubmitting()"></ion-spinner>
+      <div class="ion-padding-top">
+        <!-- Botón dinámico que responde al Signal -->
+        <ion-button expand="block" type="submit" [disabled]="registroForm.invalid || isSubmitting()">
+          <span *ngIf="!isSubmitting()">Registrarse</span>
+          <ion-spinner name="crescent" *ngIf="isSubmitting()"></ion-spinner>
+        </ion-button>
+      </div>
+
+    </form>
+
+    <!-- Punto 8: descarga en PDF de los datos que se acaban de enviar -->
+    <div class="ion-padding-top" *ngIf="ultimoEnvio()">
+      <ion-button expand="block" fill="outline" (click)="descargarPdf()">
+        <ion-icon slot="start" name="download-outline"></ion-icon>
+        Descargar datos en PDF
       </ion-button>
     </div>
-
-  </form>
-
-  <!-- Punto 8: descarga en PDF de los datos que se acaban de enviar -->
-  <div class="ion-padding-top" *ngIf="ultimoEnvio()">
-    <ion-button expand="block" fill="outline" (click)="descargarPdf()">
-      <ion-icon slot="start" name="download-outline"></ion-icon>
-      Descargar datos en PDF
-    </ion-button>
   </div>
 </ion-content>
