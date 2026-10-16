@@ -1,6 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { AlertController } from '@ionic/angular/lazy';
 import { ThemeService } from '../services/theme.service';
+import { sha256 } from '../services/cifrado';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 
 // Convierte el valor AAAA-MM-DD del input en una fecha en hora local (sin la hora se leería en UTC)
@@ -103,12 +104,16 @@ export class RegistroPage {
 
     try {
       const formData = this.registroForm.value;
-      console.log('Payload a enviar a la API REST:', formData);
+
+      // Punto 10: la contraseña se cifra (hash SHA-256) antes de mostrarla o enviarla,
+      // así nunca aparece en texto plano en la consola
+      const payload = { ...formData, password: await sha256(formData.password) };
+      console.log('Payload a enviar a la API REST:', payload);
 
       // Simulación de llamada asíncrona a un backend HTTP
       await new Promise(resolve => setTimeout(resolve, 2000));
 
-      // Aquí se implementaría: this.httpClient.post('url', formData).subscribe(...)
+      // Aquí se implementaría: this.httpClient.post('url', payload).subscribe(...)
 
       // Se guardan los datos enviados (sin la contraseña) antes de vaciar el formulario
       const { nombre, email, telefono, fechaNacimiento } = formData;
