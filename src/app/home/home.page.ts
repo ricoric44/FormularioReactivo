@@ -1,4 +1,5 @@
 import { Component, signal } from '@angular/core';
+import { AlertController } from '@ionic/angular/lazy';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 
 // Validador personalizado: la fecha no puede ser futura y el usuario debe tener la edad mínima
@@ -41,7 +42,7 @@ export class HomePage {
   // Fecha máxima del selector (hoy), en formato AAAA-MM-DD
   public hoy = new Date().toLocaleDateString('sv-SE');
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private alertCtrl: AlertController) {
     this.registroForm = this.fb.group({
       nombre: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
@@ -83,6 +84,14 @@ export class HomePage {
       // Aquí se implementaría: this.httpClient.post('url', formData).subscribe(...)
 
       this.registroForm.reset();
+
+      // Aviso al usuario de que el envío ha ido bien
+      const alerta = await this.alertCtrl.create({
+        header: 'Registro completado',
+        message: 'El formulario se ha enviado correctamente.',
+        buttons: ['Aceptar'],
+      });
+      await alerta.present();
     } catch (error) {
       console.error('Error al persistir los datos', error);
     } finally {
