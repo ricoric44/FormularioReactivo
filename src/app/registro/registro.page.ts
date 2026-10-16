@@ -51,12 +51,12 @@ export interface DatosRegistro {
 }
 
 @Component({
-  selector: 'app-home',
-  templateUrl: 'home.page.html',
-  styleUrls: ['home.page.scss'],
+  selector: 'app-registro',
+  templateUrl: 'registro.page.html',
+  styleUrls: ['registro.page.scss'],
   standalone: false,
 })
-export class HomePage {
+export class RegistroPage {
   // Definición del formulario reactivo
   public registroForm: FormGroup;
 
